@@ -1,0 +1,1 @@
+this api is used by making a request to the check-seesion/route before loading the dashboard in the dashboard/page.tsx
