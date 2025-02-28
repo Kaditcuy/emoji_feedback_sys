@@ -16,10 +16,16 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
     }
 
     // Fetch the restaurant's PIN and expiration
-    const [restaurant]: any = await db.query(
+    const result: any = await db.query(
       "SELECT pin, pin_expiration FROM restaurants WHERE id = ?",
       [id]
     );
+
+    // Debugging: Log the full query result
+    console.log("Full query result:", result);
+
+    // Access the first row of the result
+    const restaurant = result[0][0]; // Adjust based on the actual structure
 
     // Debugging logs
     console.log("Fetched restaurant data:", restaurant);
@@ -35,12 +41,12 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
     }
 
     console.log("Current Time (UTC):", new Date().toISOString());
-    
+
     const pinExpiration = new Date(restaurant.pin_expiration);
     if (isNaN(pinExpiration.getTime())) {
       return NextResponse.json({ message: "Invalid PIN expiration date" }, { status: 500 });
     }
-    
+
     console.log("PIN Expiration (UTC):", pinExpiration.toISOString());
 
     // Ensure PIN comparison works and check expiration
