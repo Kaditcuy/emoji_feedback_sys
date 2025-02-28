@@ -45,22 +45,22 @@ const data = {
       items: [
         {
           title: "My Feedback History",
-          url: "#",
+          url: "/dashboard/my-feedback",
         },
         {
           title: "Top Restaurants",
-          url: "#",
+          url: "/dashboard/topRated",
         },
       ],
     },
     {
       title: "Community Sentiment",
-      url: "#",
+      url: "/dashboard/community-sentiment",
       icon: MessageSquareText,
     },
     {
       title: "Download My Data",
-      url: "#",
+      url: "/dashboard/download",
       icon: Database,
     },
     {

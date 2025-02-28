@@ -33,3 +33,6 @@ To learn more about Next.js, take a look at the following resources:
 
 Project deployed on [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
+npm install
+mysql -u root -p -e "CREATE DATABASE emoji_feedback;"
+mysql -u root -p emoji_feedback < emoji_feedback.sql

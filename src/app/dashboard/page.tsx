@@ -17,14 +17,17 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input"; // Add this import for the PIN input
 import { useToast } from "@/hooks/use-toast";
 
-const emojis = ["🤬", "😞", "😐", "🙂", "😍"];
+const emojis = ["🤬", "😡", "👎", "😞", "😢", "🙁", "😐", "🤷", "😕", "🙂", "😀", "🤗", "😍", "😊", "😃", "👍", "🥰"];
 
 interface Restaurant {
   id: number;
   name: string;
   description: string;
+  pin: string; // Add pin to the Restaurant interface
+  pinExpiration: string; // Add pinExpiration to the Restaurant interface
 }
 
 export default function Page() {
@@ -34,6 +37,9 @@ export default function Page() {
   const [total, setTotal] = useState(0);
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false); // State for PIN dialog
+  const [pin, setPin] = useState(""); // State for PIN input
+  const [showEmojiDialog, setShowEmojiDialog] = useState(false); // State for emoji dialog
   const limit = 20;
 
   useEffect(() => {
@@ -51,26 +57,47 @@ export default function Page() {
     fetchRestaurants();
   }, [page]);
 
+  const handlePinSubmit = async () => {
+    if (!selectedRestaurant) return;
+
+    try {
+      // Verify the PIN
+      const res = await fetch(`/api/restaurants/${selectedRestaurant.id}/verify-pin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin }),
+      });
+
+      if (!res.ok) throw new Error("Invalid PIN");
+
+      // If PIN is valid, show the emoji dialog
+      setShowPinDialog(false);
+      setShowEmojiDialog(true);
+    } catch (error) {
+      toast({
+        title: "Invalid PIN",
+        description: "The PIN you entered is incorrect or has expired.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleEmojiSelect = async (emoji: string) => {
     if (!selectedRestaurant || isSubmitting) return;
     setIsSubmitting(true);
 
     const emojiRatings: Record<string, number> = {
-      "🤬": 1,
-      "😞": 2,
-      "😐": 3,
-      "🙂": 4,
-      "😍": 5,
+      "🤬": 1, "😡": 1, "👎": 1,         // Very bad experience
+      "😞": 2, "😢": 2, "🙁": 2,         // Bad experience
+      "😐": 3, "🤷": 3, "😕": 3,         // Neutral experience
+      "🙂": 4, "😀": 4, "🤗": 4,         // Good experience
+      "😍": 5, "😊": 5, "😃": 5, "👍": 5, "🥰": 5 // Excellent experience
     };
 
     try {
-      const sessionRes = await fetch("/api/auth/check-session", {credentials: "include", });  
-      console.log("Session response:", sessionRes); // Log the session response
-
+      const sessionRes = await fetch("/api/auth/check-session", { credentials: "include" });
       if (!sessionRes.ok) throw new Error("Failed to fetch session");
       const sessionData = await sessionRes.json();
-      console.log("Session data:", sessionData); // Log the session data
-
       if (!sessionData?.user.user_id) throw new Error("User not logged in");
 
       const feedbackRes = await fetch("/api/feedback", {
@@ -82,19 +109,18 @@ export default function Page() {
           emoji,
           rating: emojiRatings[emoji],
         }),
-        credentials: "include", //send cookies
+        credentials: "include",
       });
 
-      console.log("Feedback response:", feedbackRes); // Log the feedback response
-
       if (!feedbackRes.ok) throw new Error("Failed to submit feedback");
-      
+
       toast({
         title: "Thank you for your feedback!",
         description: `You rated ${selectedRestaurant.name} with ${emoji}.`,
       });
-      
-      setTimeout(() => setSelectedRestaurant(null), 500);
+
+      setSelectedRestaurant(null);
+      setShowEmojiDialog(false);
     } catch (error) {
       console.error("Error submitting feedback:", error);
       toast({
@@ -132,7 +158,13 @@ export default function Page() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-gray-500">{restaurant.description}</p>
-                    <Button className="mt-2 w-full" onClick={() => setSelectedRestaurant(restaurant)}>
+                    <Button
+                      className="mt-2 w-full"
+                      onClick={() => {
+                        setSelectedRestaurant(restaurant);
+                        setShowPinDialog(true); // Show PIN dialog first
+                      }}
+                    >
                       Rate Experience
                     </Button>
                   </CardContent>
@@ -151,20 +183,42 @@ export default function Page() {
           </div>
         </SidebarInset>
       </div>
-      {selectedRestaurant && (
-        <Dialog open={!!selectedRestaurant} onOpenChange={() => setSelectedRestaurant(null)}>
-          <DialogContent className="p-6">
-            <h3 className="text-lg font-semibold text-center">Rate {selectedRestaurant.name}</h3>
-            <div className="flex justify-center gap-4 mt-4">
-              {emojis.map((emoji) => (
-                <Button key={emoji} className="text-3xl p-2" variant="ghost" onClick={() => handleEmojiSelect(emoji)}>
-                  {emoji}
-                </Button>
-              ))}
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
+
+      {/* PIN Verification Dialog */}
+      <Dialog open={showPinDialog} onOpenChange={setShowPinDialog}>
+        <DialogContent className="p-6">
+          <h3 className="text-lg font-semibold text-center">Enter PIN</h3>
+          <Input
+            type="password"
+            placeholder="Enter PIN"
+            value={pin}
+            onChange={(e) => setPin(e.target.value)}
+            className="mt-4"
+          />
+          <Button className="mt-4 w-full" onClick={handlePinSubmit}>
+            Submit
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      {/* Emoji Rating Dialog */}
+      <Dialog open={showEmojiDialog} onOpenChange={setShowEmojiDialog}>
+        <DialogContent className="p-6">
+          <h3 className="text-lg font-semibold text-center">Rate {selectedRestaurant?.name}</h3>
+          <div className="grid grid-cols-5 gap-2 mt-4 justify-center overflow-auto max-h-60">
+            {emojis.map((emoji) => (
+              <Button
+                key={emoji}
+                className="text-4xl p-3 w-16 h-16 flex items-center justify-center"
+                variant="ghost"
+                onClick={() => handleEmojiSelect(emoji)}
+              >
+                {emoji}
+              </Button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   );
 }

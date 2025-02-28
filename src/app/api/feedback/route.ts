@@ -2,13 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getUserFromSession } from "@/lib/session";
 
-// Emoji to rating mapping
+// Emoji to rating and sentiment mapping
 const emojiToRating: { [key: string]: number } = {
-    "🤬": 1,
-    "😞": 2,
-    "😐": 3,
-    "🙂": 4,
-    "😍": 5,
+    "🤬": 1, "😡": 1, "👎": 1,         // Very bad experience
+    "😞": 2, "😢": 2, "🙁": 2,         // Bad experience
+    "😐": 3, "🤷": 3, "😕": 3,         // Neutral experience
+    "🙂": 4, "😀": 4, "🤗": 4,         // Good experience
+    "😍": 5, "😊": 5, "😃": 5, "👍": 5, "🥰": 5 // Excellent experience
+};
+
+const emojiToSentiment: { [key: string]: number } = {
+    "😊": 1, "😃": 1, "😀": 1, "😍": 1, "👍": 1, "🥰": 1, "🤗": 1, // Positive
+    "😐": 0, "🤷": 0, "😕": 0,                                   // Neutral
+    "😞": -1, "😡": -1, "🤬": -1, "😢": -1, "👎": -1, "🙁": -1     // Negative
 };
 
 export async function POST(req: NextRequest) {
@@ -23,7 +29,6 @@ export async function POST(req: NextRequest) {
         // If user_id is missing, retrieve from session
         if (!user_id) {
             console.log("Session user:", user);
-
             if (!user || !user.user_id) {
                 console.error("Unauthorized request: No user ID");
                 return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -32,18 +37,19 @@ export async function POST(req: NextRequest) {
         }
 
         // Validate emoji
-        if (!emojiToRating[emoji]) {
+        if (!(emoji in emojiToRating)) {
             console.error("Invalid emoji received:", emoji);
             return NextResponse.json({ error: "Invalid emoji" }, { status: 400 });
         }
 
         const rating = emojiToRating[emoji];
+        const sentiment_score = emojiToSentiment[emoji] ?? null;
 
         // Insert restaurant rating into feedback table
         console.log("Inserting feedback into database...");
         await db.query(
-            "INSERT INTO feedback (user_id, restaurant_id, emoji, rating) VALUES (?, ?, ?, ?)",
-            [user_id, restaurant_id, emoji, rating]
+            "INSERT INTO feedback (user_id, restaurant_id, emoji, rating, sentiment_score) VALUES (?, ?, ?, ?, ?)",
+            [user_id, restaurant_id, emoji, rating, sentiment_score]
         );
 
         // Update restaurant average rating and total ratings

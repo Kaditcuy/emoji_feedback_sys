@@ -59,13 +59,13 @@ function Hero() {
       <div className="mx-8 lg:mx-16 -mt-24 rounded-xl bg-white p-5 md:p-14 shadow-md">
         <div>
           <Typography variant="h3" color="blue-gray" className="mb-3">
-          Streamline Your Financial Requisitions with AI-Powered Precision
-          </Typography>
+          Decode Emoji Reactions for Smarter Business Decisions!
           <Typography
             variant="paragraph"
             className="font-normal !text-gray-500 lg:w-5/12"
           >
-           EFS: Decode Emoji Reactions for Smarter Business Decisions! Track, analyze, and understand how your customers feel—instantly. With AI-powered sentiment analysis, EFS helps you make data-driven decisions that improve satisfaction and boost engagement.
+           Track, analyze, and understand how your customers feel—instantly. With AI-powered sentiment analysis, EFS helps you make data-driven decisions that improve satisfaction and boost engagement.
+           </Typography>
            </Typography>
         </div>
       </div>

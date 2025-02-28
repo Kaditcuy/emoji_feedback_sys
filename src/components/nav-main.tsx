@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation";
 import { ChevronRight, type LucideIcon } from "lucide-react"
 
 import {
@@ -32,6 +33,8 @@ export function NavMain({
     }[]
   }[]
 }) {
+  const router = useRouter(); // use router for navigation
+  
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -47,7 +50,10 @@ export function NavMain({
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title}>
+                  <SidebarMenuButton 
+                    tooltip={item.title}
+                    onClick={() => router.push(item.url)} //navigate to dashboard
+                    > 
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />

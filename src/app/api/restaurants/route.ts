@@ -23,3 +23,47 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    const { name, description, location } = await request.json();
+
+    if (!name || !description || !location) {
+      return NextResponse.json(
+        { error: "Name, description, and location are required" },
+        { status: 400 }
+      );
+    }
+
+    // Generate a unique 4-digit PIN
+    const pin = Math.floor(1000 + Math.random() * 9000).toString();
+
+    // Set expiration to 2 days from now
+    const pinExpiration = new Date();
+    pinExpiration.setDate(pinExpiration.getDate() + 2);
+
+    // Insert the new restaurant into the database
+    const [result]: any = await db.query(
+      "INSERT INTO restaurants (name, description, location, pin, pin_expiration) VALUES (?, ?, ?, ?, ?)",
+      [name, description, location, pin, pinExpiration]
+    );
+
+    return NextResponse.json(
+      {
+        id: result.insertId,
+        name,
+        description,
+        location,
+        pin,
+        pinExpiration,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error adding restaurant:", error);
+    return NextResponse.json(
+      { error: "Failed to add restaurant" },
+      { status: 500 }
+    );
+  }
+}
