@@ -2,8 +2,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, context: { params: { id: string } }) {
   try {
+    const { params } = await context;
     const id = params.id;
 
     if (!id) {
@@ -21,10 +22,14 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       [id]
     );
 
-    // Debugging logs
+    // Debugging: Log the full query result
     console.log("Full query result:", result);
-    const restaurant = result[0][0];
 
+    // Access the first row of the result
+    const restaurant = result[0][0]; // Adjust based on the actual structure
+
+    // Debugging logs
+    console.log("Fetched restaurant data:", restaurant);
     if (!restaurant) {
       return NextResponse.json({ message: "Restaurant not found" }, { status: 404 });
     }
@@ -57,3 +62,4 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
+ 
