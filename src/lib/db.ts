@@ -3,23 +3,26 @@ import dotenv from "dotenv";
 
 dotenv.config();  // Load environment variables
 
-// Create MySQL Connection Pool
+const dbUrl = new URL(process.env.DATABASE_URL || "");
+
+// Parse DATABASE_URL
 export const db = mysql.createPool({
-  host: process.env.DB_HOST,       // Your database host
-  user: process.env.DB_USER,       // Your database user
-  password: process.env.DB_PASS,   // Your database password
-  database: process.env.DB_NAME,   // Your database name
+  host: dbUrl.hostname,
+  user: dbUrl.username,
+  password: dbUrl.password,
+  database: dbUrl.pathname.substring(1), // Remove leading "/"
+  port: parseInt(dbUrl.port || "3306"),
   waitForConnections: true,
-  connectionLimit: 10,             // Adjust as needed
+  connectionLimit: 10,
   queueLimit: 0,
 });
 
-// Test the database connection asynchronously
+// Test the database connection
 (async () => {
   try {
     const connection = await db.getConnection();
     console.log("✅ Database connection successful");
-    connection.release();  // Always release the connection back to the pool
+    connection.release();
   } catch (error) {
     console.error("❌ Database connection error:", error);
   }
