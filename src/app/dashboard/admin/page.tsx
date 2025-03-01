@@ -76,7 +76,7 @@ export default function SuperAdminDashboard() {
       <div className="flex h-screen">
         <AppSidebar /> {/* Use AppSidebar inside SidebarProvider */}
         <main className="flex-1 p-6 space-y-6">
-          <h1 className="text-2xl font-semibold">Admin --FingerGod's Dashboard</h1>
+          <h1 className="text-2xl font-semibold">Admin --FingerGod&apos;s Dashboard</h1>
 
           {/* Add Restaurant Form */}
           <Card>

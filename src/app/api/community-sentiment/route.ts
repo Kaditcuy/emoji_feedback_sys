@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db"; // Ensure correct path to your database utility
 
@@ -28,7 +29,7 @@ export async function GET(req: NextRequest) {
       }
   
       // Process feedback and calculate sentiment per restaurant
-      let restaurantSentiments: { 
+      const restaurantSentiments: { 
         [key: string]: { restaurant_name: string, sentiment: { positive: number, neutral: number, negative: number }, totalFeedback: number } 
       } = {};
   
@@ -58,4 +59,5 @@ export async function GET(req: NextRequest) {
         { status: 500 }
       );
     }
-  }  
+  }
+/* eslint-disable @typescript-eslint/no-explicit-any */

@@ -55,7 +55,7 @@ export default function TopRatedRestaurants() {
       }
     }
     fetchTopRestaurants();
-  }, [page]);
+  }, [page, toast]);
 
   return (
     <SidebarProvider>

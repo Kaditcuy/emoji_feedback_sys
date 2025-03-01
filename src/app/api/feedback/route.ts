@@ -19,7 +19,7 @@ const emojiToSentiment: { [key: string]: number } = {
 
 export async function POST(req: NextRequest) {
     try {
-        let { user_id, restaurant_id, emoji, comment } = await req.json();
+        const { user_id, restaurant_id, emoji, comment } = await req.json();
         console.log("Received request with data:", { user_id, restaurant_id, emoji, comment });
 
         // Get session data

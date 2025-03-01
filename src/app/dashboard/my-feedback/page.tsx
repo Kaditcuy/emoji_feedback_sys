@@ -57,7 +57,7 @@ export default function FeedbackHistory() {
       }
     }
     fetchFeedbackHistory();
-  }, [page]);
+  }, [page, toast]);
 
   return (
     <SidebarProvider>

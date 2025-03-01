@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 import { cookies } from "next/headers";
 import { db } from "@/lib/db";
@@ -87,3 +88,4 @@ export async function destroySession() {
   // Clear cookie (AWAIT here)
   await cookieStore.set("session_token", "", { ...COOKIE_OPTIONS, maxAge: 0 });
 }
+ 

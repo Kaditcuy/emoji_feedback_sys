@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getUserFromSession } from "@/lib/session";
@@ -46,4 +47,4 @@ export async function GET(req: NextRequest) {
         console.error("Error fetching user data:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
-}
+} 

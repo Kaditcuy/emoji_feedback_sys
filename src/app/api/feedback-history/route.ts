@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { getUserFromSession } from "@/lib/session";
 import { db } from "@/lib/db"; // Adjust import based on your DB setup
@@ -54,4 +55,4 @@ export async function GET(req: NextRequest) {
         console.error("Error fetching feedback history:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
-}
+} 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Typography, Card, CardBody, Avatar } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import { UserIcon } from "@heroicons/react/24/solid";
 import TestimonialCard from "../components/testimonial-card";
 

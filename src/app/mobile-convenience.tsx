@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import InfoCard from "../components/info-card";
-import { Typography, Card, CardBody } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 
 const OPTIONS = [
   {

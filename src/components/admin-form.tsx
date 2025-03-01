@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -91,4 +92,4 @@ export function AdminForm({
       </div>
     </form>
   )
-}
+} 

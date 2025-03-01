@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
@@ -61,3 +62,4 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
+ 
