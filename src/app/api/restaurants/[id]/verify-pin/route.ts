@@ -1,10 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+interface Params {
+  params: { id: string };
+}
+
+export async function POST(req: NextRequest, { params }: Params) {
   try {
-    const id = params.id;
+    const { id } = params;
 
     if (!id) {
       return NextResponse.json({ message: "Missing restaurant ID" }, { status: 400 });
@@ -21,7 +24,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       [id]
     );
 
-    // Debugging logs
     console.log("Full query result:", result);
     const restaurant = result[0][0];
 
@@ -35,8 +37,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     if (!restaurant.pin_expiration) {
       return NextResponse.json({ message: "PIN expiration missing" }, { status: 500 });
     }
-
-    console.log("Current Time (UTC):", new Date().toISOString());
 
     const pinExpiration = new Date(restaurant.pin_expiration);
     if (isNaN(pinExpiration.getTime())) {
