@@ -11,7 +11,7 @@ const generateSessionToken = () => crypto.randomBytes(32).toString("hex");
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "lax",
+  sameSite: "lax" as const,
   path: "/",
 };
 
@@ -55,7 +55,7 @@ export async function createSession(userId: number) {
 }
 
 // Get user from session token
-export async function getUserFromSession(): Promise<{ user: { user_id: number; email: string } }> {
+export async function getUserFromSession(): Promise<{ user: { user_id: number; email: string } } | null> {
   const cookieStore = await cookies(); // Remove `await`
   const sessionToken = cookieStore.get("session_token")?.value;
   
@@ -72,7 +72,7 @@ export async function getUserFromSession(): Promise<{ user: { user_id: number; e
 
   console.log("Session query result:", rows);
 
-  return rows.length ? { user_id: rows[0].user_id, email: rows[0].email } : null;
+  return rows.length ? { user: { user_id: rows[0].user_id, email: rows[0].email } } : null;
 }
 
 // Logout: Delete session and clear cookie

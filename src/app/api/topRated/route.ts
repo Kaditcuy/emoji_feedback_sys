@@ -25,9 +25,12 @@ export async function GET(req: NextRequest) {
         );
 
         // Get total number of rated restaurants
-        const [[{ total }]] = await db.query(
+        const result: any = await db.query(
             `SELECT COUNT(*) AS total FROM restaurants WHERE total_ratings > 0;`
         );
+
+        const total = result?.[0]?.total ?? 0; // Ensure safe access
+        console.log("Total rated restaurants:", total);
 
         return NextResponse.json({
             restaurants,
