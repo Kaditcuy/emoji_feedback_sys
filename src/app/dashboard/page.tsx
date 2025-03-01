@@ -17,7 +17,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input"; // Add this import for the PIN input
+import { Input, Textarea } from "@/components/ui/input"; // Add this import for the PIN input
 import { useToast } from "@/hooks/use-toast";
 
 const emojis = ["🤬", "😡", "👎", "😞", "😢", "🙁", "😐", "🤷", "😕", "🙂", "😀", "🤗", "😍", "😊", "😃", "👍", "🥰"];
@@ -39,7 +39,8 @@ export default function Page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPinDialog, setShowPinDialog] = useState(false); // State for PIN dialog
   const [pin, setPin] = useState(""); // State for PIN input
-  const [showEmojiDialog, setShowEmojiDialog] = useState(false); // State for emoji dialog
+  const [showEmojiDialog, setShowEmojiDialog] = useState(false);
+  const [comment, setComment] = useState(""); // State for emoji dialog
   const limit = 20;
 
   useEffect(() => {
@@ -108,6 +109,7 @@ export default function Page() {
           restaurant_id: selectedRestaurant.id,
           emoji,
           rating: emojiRatings[emoji],
+          comment,
         }),
         credentials: "include",
       });
@@ -121,6 +123,7 @@ export default function Page() {
 
       setSelectedRestaurant(null);
       setShowEmojiDialog(false);
+      setComment(""); // Reset comment field
     } catch (error) {
       console.error("Error submitting feedback:", error);
       toast({
@@ -217,6 +220,12 @@ export default function Page() {
               </Button>
             ))}
           </div>
+          <Textarea
+            placeholder="Leave a comment (optional)"
+            className="mt-4 w-full"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
         </DialogContent>
       </Dialog>
     </SidebarProvider>

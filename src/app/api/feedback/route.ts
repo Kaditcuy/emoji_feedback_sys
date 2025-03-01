@@ -19,8 +19,8 @@ const emojiToSentiment: { [key: string]: number } = {
 
 export async function POST(req: NextRequest) {
     try {
-        let { user_id, restaurant_id, emoji } = await req.json();
-        console.log("Received request with data:", { user_id, restaurant_id, emoji });
+        let { user_id, restaurant_id, emoji, comment } = await req.json();
+        console.log("Received request with data:", { user_id, restaurant_id, emoji, comment });
 
         // Get session data
         const sessionResponse = await getUserFromSession();
@@ -48,8 +48,8 @@ export async function POST(req: NextRequest) {
         // Insert restaurant rating into feedback table
         console.log("Inserting feedback into database...");
         await db.query(
-            "INSERT INTO feedback (user_id, restaurant_id, emoji, rating, sentiment_score) VALUES (?, ?, ?, ?, ?)",
-            [user_id, restaurant_id, emoji, rating, sentiment_score]
+            "INSERT INTO feedback (user_id, restaurant_id, emoji, rating, sentiment_score, comment) VALUES (?, ?, ?, ?, ?, ?)",
+            [user_id, restaurant_id, emoji, rating, sentiment_score, comment || null]
         );
 
         // Update restaurant average rating and total ratings

@@ -31,6 +31,20 @@ export async function POST(
       [id]
     );
 
+    // Debugging logs
+    console.log("Fetched restaurant data:", restaurant);
+    if (!restaurant) {
+      return NextResponse.json({ message: "Restaurant not found" }, { status: 404 });
+    }
+
+    console.log("Received PIN from request:", pin);
+    console.log("Stored PIN in DB:", restaurant.pin || "undefined");
+
+    if (!restaurant.pin_expiration) {
+      return NextResponse.json({ message: "PIN expiration missing" }, { status: 500 });
+    }
+    console.log("Current Time (UTC):", new Date().toISOString());
+
     if (!restaurant) {
       return NextResponse.json(
         { message: "Restaurant not found" },
@@ -47,7 +61,10 @@ export async function POST(
     // Check if the PIN matches and is not expired
     const currentTime = new Date();
     const pinExpiration = new Date(restaurant.pin_expiration);
-
+    if (isNaN(pinExpiration.getTime())) {
+      return NextResponse.json({ message: "Invalid PIN expiration date" }, { status: 500 });
+    }
+    console.log("PIN Expiration (UTC):", pinExpiration.toISOString());
     if (String(restaurant.pin) !== String(pin) || currentTime > pinExpiration) {
       return NextResponse.json({ message: "Invalid PIN or PIN expired" }, { status: 401 });
     }
