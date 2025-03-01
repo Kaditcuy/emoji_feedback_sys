@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Menu } from "lucide-react"; // Import the Menu icon
 import {
   Command,
   LifeBuoy,
@@ -9,7 +10,6 @@ import {
   Smile,
   Settings2,
   MessageSquareText,
-  Menu,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -23,6 +23,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar, // Import useSidebar to access sidebar state
 } from "@/components/ui/sidebar";
 
 const data = {
@@ -79,22 +80,24 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const { isMobile, openMobile, setOpenMobile } = useSidebar(); // Use the sidebar context
 
   return (
     <>
       {/* Mobile Toggle Button */}
-      <button
-        className="fixed left-4 top-4 z-50 rounded-lg bg-sidebar-primary p-2 text-sidebar-primary-foreground lg:hidden"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        <Menu className="size-6" />
-      </button>
+      {isMobile && (
+        <button
+          className="fixed left-4 top-4 z-50 rounded-lg bg-sidebar-primary p-2 text-sidebar-primary-foreground lg:hidden"
+          onClick={() => setOpenMobile(!openMobile)}
+        >
+          <Menu className="size-6" />
+        </button>
+      )}
 
       {/* Sidebar */}
       <Sidebar
         className={`fixed left-0 top-0 !h-[100svh] w-64 bg-sidebar-primary transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          isMobile && !openMobile ? "-translate-x-full" : "translate-x-0"
         }`}
         {...props}
       >
@@ -125,10 +128,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </Sidebar>
 
       {/* Overlay for Mobile */}
-      {isSidebarOpen && (
+      {isMobile && openMobile && (
         <div
           className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
+          onClick={() => setOpenMobile(false)}
         />
       )}
     </>
