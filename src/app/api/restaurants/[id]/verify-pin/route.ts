@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-interface Params {
-  params: { id: string };
-}
-
-export async function POST(req: NextRequest, { params }: Params) {
+export async function POST(req: NextRequest) {
   try {
-    const { id } = params;
+    // Extract `id` from the URL path
+    const pathSegments = req.nextUrl.pathname.split("/");
+    const id = pathSegments[pathSegments.length - 2]; // Get the second-to-last segment
+
+    console.log("Extracted ID from URL:", id); // Debugging log
 
     if (!id) {
       return NextResponse.json({ message: "Missing restaurant ID" }, { status: 400 });
@@ -18,21 +18,26 @@ export async function POST(req: NextRequest, { params }: Params) {
       return NextResponse.json({ message: "Missing PIN" }, { status: 400 });
     }
 
+    console.log("Received PIN from request:", pin); // Debugging log
+
     // Fetch the restaurant's PIN and expiration
     const result: any = await db.query(
       "SELECT pin, pin_expiration FROM restaurants WHERE id = ?",
       [id]
     );
 
-    console.log("Full query result:", result);
-    const restaurant = result[0][0];
+    console.log("Full query result:", result); // Debugging log
+
+    // Extract the first row of the first result set
+    const restaurant = result[0]?.[0]; // Ensure safe array access
+
+    console.log("Extracted restaurant data:", restaurant); // Debugging log
 
     if (!restaurant) {
       return NextResponse.json({ message: "Restaurant not found" }, { status: 404 });
     }
 
-    console.log("Received PIN from request:", pin);
-    console.log("Stored PIN in DB:", restaurant.pin || "undefined");
+    console.log("Stored PIN in DB:", restaurant.pin || "undefined"); // Debugging log
 
     if (!restaurant.pin_expiration) {
       return NextResponse.json({ message: "PIN expiration missing" }, { status: 500 });
@@ -43,7 +48,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       return NextResponse.json({ message: "Invalid PIN expiration date" }, { status: 500 });
     }
 
-    console.log("PIN Expiration (UTC):", pinExpiration.toISOString());
+    console.log("PIN Expiration (UTC):", pinExpiration.toISOString()); // Debugging log
 
     // Ensure PIN comparison works and check expiration
     const currentTime = new Date();
