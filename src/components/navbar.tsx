@@ -63,7 +63,7 @@ export function Navbar() {
       shadow={false}
       blurred={false}
       color={isScrolling ? "white" : "transparent"}
-      className="fixed top-0 z-50 border-0"
+      className={`fixed top-0 z-50 border-0 ${isScrolling ? "bg-white shadow-md" : "bg-transparent"}`}
       placeholder=""
       onPointerEnterCapture={() => {}}
       onPointerLeaveCapture={() => {}}
@@ -126,9 +126,9 @@ export function Navbar() {
           )}
         </IconButton>
       </div>
-      <Collapse open={open}>
+      <Collapse open={open} className="relative z-50 shadow-lg opacity-100 visible transition-all duration-300 ease-in-out">
         <div className="container mx-auto mt-4 rounded-lg border-t border-blue-gray-50 bg-white px-6 py-5">
-          <ul className="flex flex-col gap-4 text-blue-gray-900">
+          <ul className="flex flex-col gap-4 text-gray-900">
             <NavItem>Home</NavItem>
             <NavItem>About Us</NavItem>
             <NavItem>Contact Us</NavItem>
