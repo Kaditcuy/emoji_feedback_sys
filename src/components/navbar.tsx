@@ -83,12 +83,12 @@ export function Navbar() {
             isScrolling ? "text-gray-900" : "text-white"
           }`}
         >
-          <NavItem>Home</NavItem>
-          <NavItem>About Us</NavItem>
-          <NavItem>Contact Us</NavItem>
-          <NavItem href="#">
-            Docs
-          </NavItem>
+          <NavItem href="/">Home</NavItem>
+            <NavItem href="/about">About Us</NavItem>
+            <NavItem href="/contact">Contact Us</NavItem>
+            <NavItem href="#">
+              Docs
+            </NavItem>
         </ul>
         <div className="hidden gap-2 lg:flex lg:items-center">
           <IconButton
@@ -129,9 +129,9 @@ export function Navbar() {
       <Collapse open={open} className="relative z-50 shadow-lg opacity-100 visible transition-all duration-300 ease-in-out">
         <div className="container mx-auto mt-4 rounded-lg border-t border-blue-gray-50 bg-white px-6 py-5">
           <ul className="flex flex-col gap-4 text-gray-900">
-            <NavItem>Home</NavItem>
-            <NavItem>About Us</NavItem>
-            <NavItem>Contact Us</NavItem>
+            <NavItem href="/">Home</NavItem>
+            <NavItem href="/about">About Us</NavItem>
+            <NavItem href="/contact">Contact Us</NavItem>
             <NavItem href="#">
               Docs
             </NavItem>

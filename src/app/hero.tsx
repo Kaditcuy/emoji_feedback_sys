@@ -17,20 +17,26 @@ function Hero() {
                 variant="h1"
                 color="white"
                 className="mb-4 text-4xl sm:text-5xl lg:text-6xl"
-              >
+                placeholder="" 
+                onPointerEnterCapture={() => {}} 
+                onPointerLeaveCapture={() => {}}>
                 EFS <br />
               </Typography>
               <Typography
                 variant="lead"
                 className="mb-7 !text-white text-lg sm:text-xl lg:text-2xl md:pr-16 xl:pr-28"
-              >
+                placeholder="" 
+                onPointerEnterCapture={() => {}} 
+                onPointerLeaveCapture={() => {}}>
                 Emoji Feedback System
               </Typography>
               <Typography
                 className="mb-4 text-lg sm:text-xl lg:text-2xl"
                 color="white"
                 variant="h6"
-              >
+                placeholder="" 
+                onPointerEnterCapture={() => {}} 
+                onPointerLeaveCapture={() => {}}>
                 Use EFS to Understand Your Customers Like Never Before!
               </Typography>
               <div className="flex flex-col gap-4 md:flex-row md:gap-2 md:mb-2 md:w-10/12">
@@ -39,7 +45,9 @@ function Hero() {
                     size="lg"
                     color="white"
                     className="w-full md:w-auto flex justify-center items-center gap-3"
-                  >
+                    placeholder="" 
+                    onPointerEnterCapture={() => {}} 
+                    onPointerLeaveCapture={() => {}}>
                     Login
                   </Button>
                 </Link>
@@ -49,7 +57,9 @@ function Hero() {
                     size="lg"
                     color="white"
                     className="w-full md:w-auto flex justify-center items-center gap-3"
-                  >
+                    placeholder="" 
+                    onPointerEnterCapture={() => {}} 
+                    onPointerLeaveCapture={() => {}}>
                     Sign Up
                   </Button>
                 </Link>
@@ -63,10 +73,10 @@ function Hero() {
 
               {/* Floating Emojis */}
               <div className="absolute top-10 left-10 animate-bounce">
-                <Image src="/image/emoji-happy.png" width={50} height={50} alt="happy emoji" />
+                <Image src="/image/emoji-happy.png" width={150} height={150} alt="happy emoji" />
               </div>
               <div className="absolute bottom-10 right-10 animate-bounce">
-                <Image src="/image/emoji-angry.png" width={50} height={50} alt="angry emoji" />
+                <Image src="/image/emoji-angry.png" width={150} height={150} alt="angry emoji" />
               </div>
 
               {/* Main Image */}
@@ -88,13 +98,17 @@ function Hero() {
               variant="h3"
               color="blue-gray"
               className="mb-3 text-2xl sm:text-3xl lg:text-4xl"
-            >
+              placeholder="" 
+              onPointerEnterCapture={() => {}} 
+              onPointerLeaveCapture={() => {}}>
               Decode Emoji Reactions for Smarter Business Decisions!
             </Typography>
             <Typography
               variant="paragraph"
               className="font-normal !text-gray-500 text-base sm:text-lg lg:w-5/12"
-            >
+              placeholder="" 
+              onPointerEnterCapture={() => {}} 
+              onPointerLeaveCapture={() => {}}>
               Track, analyze, and understand how your customers feel—instantly. With AI-powered sentiment analysis, EFS helps you make data-driven decisions that improve satisfaction and boost engagement.
             </Typography>
           </div>
