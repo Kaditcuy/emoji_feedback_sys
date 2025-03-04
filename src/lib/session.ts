@@ -21,15 +21,17 @@ export async function createSession(userId: number) {
 
   // Check for existing session
   const [existingSession]: any = await db.query(
-    "SELECT session_token FROM sessions WHERE user_id = ? AND expires_at > NOW() LIMIT 1",
+    "SELECT session_token FROM sessions WHERE user_id = ? AND expires_at > NOW() ORDER BY expires_at DESC LIMIT 1",
     [userId]
   );
+  console.log("Existing session for user:", existingSession);
 
   let sessionToken;
   
   if (existingSession.length) {
     // Reuse existing session
     sessionToken = existingSession[0].session_token;
+    console.log("Reusing existing session token:", sessionToken);
   } else {
     // Create new session token
     sessionToken = generateSessionToken();
@@ -49,30 +51,37 @@ export async function createSession(userId: number) {
 
   // Store the session token in the cookie (AWAIT here)
   await cookieStore.set("session_token", sessionToken, COOKIE_OPTIONS);
-  console.log("Session token set in cookie");
+  console.log("Session token set in cookie, token: ", cookieStore.get("session_token")?.value);
 
   return sessionToken; // Return the session token for debugging
 }
 
 // Get user from session token
-export async function getUserFromSession(): Promise<{ user: { user_id: number; email: string } } | null> {
+export async function getUserFromSession(): Promise<{ user_id: number; email: string } | null> {
   const cookieStore = await cookies(); // Remove `await`
   const sessionToken = cookieStore.get("session_token")?.value;
-  
-  if (!sessionToken) return null;
+  console.log("Session token from cookie:", sessionToken);
+
+  if (!sessionToken) {
+    console.log("❌ No session token found in cookies");
+    return null;
+  }
+
+  console.log("🔍 Checking session for token:", sessionToken);
 
   const [rows]: any = await db.query(
     `SELECT users.id AS user_id, users.email 
      FROM users 
      JOIN sessions ON users.id = sessions.user_id 
      WHERE sessions.session_token = ? 
-     AND sessions.expires_at > NOW()`, 
+     AND sessions.expires_at > NOW() 
+     ORDER BY sessions.expires_at DESC LIMIT 1`, 
     [sessionToken]
   );
 
   console.log("Session query result:", rows);
 
-  return rows.length ? { user: { user_id: rows[0].user_id, email: rows[0].email } } : null;
+  return rows.length ? { user_id: rows[0].user_id, email: rows[0].email } : null;
 }
 
 // Logout: Delete session and clear cookie

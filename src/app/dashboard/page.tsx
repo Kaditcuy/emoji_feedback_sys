@@ -96,9 +96,21 @@ export default function Page() {
     };
 
     try {
-      const sessionRes = await fetch("/api/auth/check-session", { credentials: "include" });
-      if (!sessionRes.ok) throw new Error("Failed to fetch session");
+      console.log("🚀 Fetching session from /api/auth/check-session...");
+      const sessionRes = await fetch("/api/auth/check-session", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      console.log("✅ Fetch request made. Status:", sessionRes.status);
+      
+      if (!sessionRes.ok) {
+        const errorText = await sessionRes.text();
+        console.error("❌ Session fetch failed:", sessionRes.status, errorText);
+        throw new Error("Failed to fetch session");
+      }
       const sessionData = await sessionRes.json();
+      console.log("Session Data Response:", sessionData);
       if (!sessionData?.user.user_id) throw new Error("User not logged in");
 
       const feedbackRes = await fetch("/api/feedback", {

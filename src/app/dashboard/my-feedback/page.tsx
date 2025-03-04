@@ -39,6 +39,7 @@ export default function FeedbackHistory() {
         const sessionRes = await fetch("/api/auth/check-session", { credentials: "include" });
         if (!sessionRes.ok) throw new Error("Failed to fetch session");
         const sessionData = await sessionRes.json();
+        console.log("Session Data Response:", sessionData);
         if (!sessionData?.user.user_id) throw new Error("User not logged in");
 
         const res = await fetch(`/api/feedback-history?page=${page}&limit=${limit}`, { credentials: "include" });
