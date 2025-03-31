@@ -24,7 +24,7 @@ export function Footer() {
               Material Tailwind
             </Typography>
             <Typography color="white" className="mb-12 font-normal" placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
-              The reward for getting on the stage is fame.
+              The intention is nothing but greatness.
             </Typography>
             <ul className="flex flex-wrap items-center justify-center md:justify-start">
               {LINKS.map((link, idx) => (
@@ -43,7 +43,7 @@ export function Footer() {
               ))}
             </ul>
           </div>
-          <div className="mt-8 w-full md:mt-0 md:w-auto">
+          {/* <div className="mt-8 w-full md:mt-0 md:w-auto">
             <Typography variant="h6" color="white" className="mb-3" placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
               Get the app
             </Typography>
@@ -73,7 +73,7 @@ export function Footer() {
                 Google Play
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="mt-16 flex flex-wrap items-center justify-center gap-y-4 gap-x-8 border-t border-gray-700 py-7 md:justify-between">
           <Typography
@@ -82,11 +82,11 @@ export function Footer() {
             placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
             &copy; {CURRENT_YEAR} Made with{" "}
             <a href="https://www.material-tailwind.com" target="_blank">
-              Material Tailwind
+              Emoji Feedback System
             </a>{" "}
             by{" "}
             <a href="https://www.creative-tim.com" target="_blank">
-              Creative Tim
+              Philip Ukanwoke
             </a>
             .
           </Typography>
