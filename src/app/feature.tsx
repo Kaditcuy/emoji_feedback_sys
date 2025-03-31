@@ -44,10 +44,10 @@ export function Features() {
     <section className="py-28 px-4">
       <div className="container mx-auto mb-20 text-center">
         <Typography color="blue-gray" className="mb-2 font-bold uppercase" placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
-          Your Learning App
+          Your Feedback App
         </Typography>
         <Typography variant="h1" color="blue-gray" className="mb-4" placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
-          Diverse Learning Resources
+          Diverse Restaurant Ratings
         </Typography>
         <Typography
           variant="lead"
@@ -56,9 +56,8 @@ export function Features() {
           onPointerEnterCapture={() => {}}
           onPointerLeaveCapture={() => {}}
         >
-          Access your learning materials on the go. Whether you&apos;re
-          commuting, waiting for a friend, or just have a few minutes to spare,
-          our app fits seamlessly into your busy life.
+          Visited a restaurant? Rate it! Your feedback matters. Share your experience and help others make informed dining choices. Join our community of food lovers and make your voice heard.
+          <br />
         </Typography>
       </div>
       <div className="container mx-auto grid max-w-6xl grid-cols-1 gap-4 gap-y-12 md:grid-cols-2">
