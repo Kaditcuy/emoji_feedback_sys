@@ -1,38 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Emoji Feedback System (EFS)
 
-## Getting Started
+## 📌 Overview
 
-First, run the development server:
+The Emoji Feedback System (EFS) is an innovative web application designed to analyze customer sentiments using emojis as tokens.  
+By leveraging AI-powered sentiment analysis, EFS enables users to rate restaurants and generate insightful reports, facilitating data-driven decisions for businesses and enhancing user experiences.
+
+🔗 **Live Demo**: [https://emoji-feedback-sys.vercel.app](https://emoji-feedback-sys.vercel.app)
+
+---
+
+## 🚀 Features
+
+- **Emoji-Based Sentiment Analysis**: Uses emojis as tokens to assess customer sentiments.
+- **Restaurant Rating System**: Allows users to rate their dining experiences.
+- **Automated Report Generation**: Produces detailed sentiment reports based on user feedback for registered restaurant admin.
+- **User-Friendly Interface**: Intuitive design for seamless interaction.
+- **Real-Time Analytics**: Instantaneous processing and feedback.
+
+---
+
+## 🛠️ Technologies Used
+
+- **Frontend**: NextJs
+- **Backend**: NextJs App Router
+- **Database**: MySQl on Railway
+- **AI Model**: Custom-trained sentiment analysis model  
+- **Deployment**: Vercel
+
+---
+
+## 📥 Installation & Setup
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+git clone https://github.com/your-username/emoji-feedback-sys.git
+cd emoji-feedback-sys
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying files in `src/`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-
-
-## Deploy on Vercel
-
-Project deployed on [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 npm install
 mysql -u root -p -e "CREATE DATABASE emoji_feedback;"
 mysql -u root -p emoji_feedback < emoji_feedback.sql
+npm start
+By default, the server runs at http://localhost:8000
+
+
+
