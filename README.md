@@ -1,6 +1,6 @@
 # 🧠 Emoji Feedback System (EFS)
 
-## 📌 Overview
+##  Overview
 
 The Emoji Feedback System (EFS) is an innovative web application designed to analyze customer sentiments using emojis as tokens.  
 By leveraging AI-powered sentiment analysis, EFS enables users to rate restaurants and generate insightful reports, facilitating data-driven decisions for businesses and enhancing user experiences.
@@ -9,7 +9,7 @@ By leveraging AI-powered sentiment analysis, EFS enables users to rate restauran
 
 ---
 
-## 🚀 Features
+##  Features
 
 - **Emoji-Based Sentiment Analysis**: Uses emojis as tokens to assess customer sentiments.
 - **Restaurant Rating System**: Allows users to rate their dining experiences.
@@ -29,7 +29,7 @@ By leveraging AI-powered sentiment analysis, EFS enables users to rate restauran
 
 ---
 
-## 📥 Installation & Setup
+##  Installation & Setup
 
 ### 1. Clone the Repository
 
@@ -42,6 +42,7 @@ npm install
 mysql -u root -p -e "CREATE DATABASE emoji_feedback;"
 mysql -u root -p emoji_feedback < emoji_feedback.sql
 npm start
+
 By default, the server runs at http://localhost:8000
 
 
